@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flashcard } from "./Flashcard";
-import { cn } from "@/lib/utils";
 import type { Flashcard as FlashcardType } from "@/types";
 
 interface FlashcardListProps {
@@ -13,155 +12,192 @@ interface FlashcardListProps {
 
 export function FlashcardList({ cards, onReset }: FlashcardListProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
 
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
+    setDirection(-1);
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : cards.length - 1));
-  };
+  }, [cards.length]);
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
+    setDirection(1);
     setCurrentIndex((prev) => (prev < cards.length - 1 ? prev + 1 : 0));
-  };
+  }, [cards.length]);
 
   const goToCard = (index: number) => {
+    setDirection(index > currentIndex ? 1 : -1);
     setCurrentIndex(index);
   };
 
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") goToPrevious();
+      if (e.key === "ArrowRight") goToNext();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [goToPrevious, goToNext]);
+
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 300 : -300,
+      opacity: 0,
+      scale: 0.9,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+    },
+    exit: (direction: number) => ({
+      x: direction < 0 ? 300 : -300,
+      opacity: 0,
+      scale: 0.9,
+    }),
+  };
+
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      {/* Header with count and reset */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-2">
-          <span className="text-2xl">📚</span>
-          <h2 className="text-xl font-semibold">
-            {cards.length} Flashcard{cards.length !== 1 ? "s" : ""} Generated
-          </h2>
+    <div className="w-full max-w-2xl mx-auto px-4">
+      {/* Header */}
+      <motion.div 
+        className="flex items-center justify-between mb-8"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <div className="flex items-center gap-3">
+          <div className="text-3xl">🎴</div>
+          <div>
+            <h2 className="text-xl font-bold" style={{ color: "var(--ink-black)" }}>
+              Your Flashcards
+            </h2>
+            <p className="text-sm" style={{ color: "var(--ink-gray)" }}>
+              {cards.length} card{cards.length !== 1 ? "s" : ""} generated
+            </p>
+          </div>
         </div>
-        <button
+
+        <motion.button
           onClick={onReset}
-          className={cn(
-            "px-4 py-2 rounded-lg text-sm font-medium",
-            "bg-white/10 hover:bg-white/20",
-            "transition-colors duration-200",
-            "flex items-center gap-2"
-          )}
+          className="btn-secondary flex items-center gap-2"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-            />
-          </svg>
-          New Video
-        </button>
+          <PlusIcon />
+          <span>New Video</span>
+        </motion.button>
+      </motion.div>
+
+      {/* Progress Bar */}
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-sm font-medium" style={{ color: "var(--ink-gray)" }}>Progress</span>
+          <span className="text-sm font-bold" style={{ color: "var(--ink-black)" }}>
+            {currentIndex + 1} / {cards.length}
+          </span>
+        </div>
+        <div className="h-2 rounded-full overflow-hidden" style={{ background: "var(--bg-warm)" }}>
+          <motion.div
+            className="h-full rounded-full"
+            style={{ background: "var(--pop-vermillion)" }}
+            initial={false}
+            animate={{ width: `${((currentIndex + 1) / cards.length) * 100}%` }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          />
+        </div>
       </div>
 
-      {/* Current card display */}
-      <div className="relative">
-        <AnimatePresence mode="wait">
+      {/* Card Display */}
+      <div className="relative h-80 mb-8">
+        <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={currentIndex}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.3 }}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
+            className="absolute inset-0"
           >
-            <Flashcard card={cards[currentIndex]} index={currentIndex} />
+            <Flashcard 
+              card={cards[currentIndex]} 
+              index={currentIndex} 
+              total={cards.length}
+            />
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Navigation controls */}
-      <div className="mt-6 flex items-center justify-between">
-        {/* Previous button */}
-        <button
+      {/* Navigation */}
+      <div className="flex items-center justify-between gap-4">
+        {/* Previous Button */}
+        <motion.button
           onClick={goToPrevious}
-          className={cn(
-            "p-3 rounded-full",
-            "bg-white/10 hover:bg-white/20",
-            "transition-colors duration-200",
-            "disabled:opacity-50 disabled:cursor-not-allowed"
-          )}
+          className="p-4 rounded-xl transition-colors"
+          style={{ background: "var(--bg-warm)" }}
+          whileHover={{ scale: 1.05, background: "var(--ink-black)" }}
+          whileTap={{ scale: 0.95 }}
           aria-label="Previous card"
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
+          <svg className="w-6 h-6" style={{ color: "var(--ink-black)" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/>
           </svg>
-        </button>
+        </motion.button>
 
-        {/* Progress indicators */}
-        <div className="flex items-center gap-2 flex-wrap justify-center max-w-md">
+        {/* Dot Indicators */}
+        <div className="flex items-center gap-2 flex-wrap justify-center max-w-sm">
           {cards.map((_, index) => (
             <button
               key={index}
               onClick={() => goToCard(index)}
-              className={cn(
-                "w-3 h-3 rounded-full transition-all duration-200",
-                index === currentIndex
-                  ? "bg-gradient-to-r from-purple-500 to-pink-500 scale-125"
-                  : "bg-white/30 hover:bg-white/50"
-              )}
+              className={`nav-dot ${index === currentIndex ? "active" : ""}`}
               aria-label={`Go to card ${index + 1}`}
             />
           ))}
         </div>
 
-        {/* Next button */}
-        <button
+        {/* Next Button */}
+        <motion.button
           onClick={goToNext}
-          className={cn(
-            "p-3 rounded-full",
-            "bg-white/10 hover:bg-white/20",
-            "transition-colors duration-200",
-            "disabled:opacity-50 disabled:cursor-not-allowed"
-          )}
+          className="p-4 rounded-xl"
+          style={{ background: "var(--pop-vermillion)" }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           aria-label="Next card"
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/>
           </svg>
-        </button>
+        </motion.button>
       </div>
 
-      {/* Card counter */}
-      <div className="mt-4 text-center text-sm text-gray-400">
-        Card {currentIndex + 1} of {cards.length}
-      </div>
-
-      {/* Keyboard hint */}
-      <div className="mt-6 text-center text-xs text-gray-500">
-        <span className="inline-flex items-center gap-2">
-          <kbd className="px-2 py-1 rounded bg-white/10">←</kbd>
-          <kbd className="px-2 py-1 rounded bg-white/10">→</kbd>
-          to navigate
+      {/* Keyboard Hint */}
+      <motion.div 
+        className="mt-8 text-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        <span className="inline-flex items-center gap-3 text-sm" style={{ color: "var(--ink-light)" }}>
+          <span className="kbd">←</span>
+          <span className="kbd">→</span>
+          <span>to navigate</span>
+          <span className="mx-2">•</span>
+          <span>click card to flip</span>
         </span>
-      </div>
+      </motion.div>
     </div>
+  );
+}
+
+function PlusIcon() {
+  return (
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/>
+    </svg>
   );
 }

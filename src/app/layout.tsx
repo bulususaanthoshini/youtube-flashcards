@@ -1,26 +1,28 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
-  title: "YouTube Flashcards | AI-Powered Study Cards Generator",
-  description: "Transform YouTube videos into interactive study flashcards using Google Gemini AI. Learn faster and remember more with AI-generated Q&A cards.",
-  keywords: ["YouTube", "flashcards", "study", "AI", "Gemini", "learning", "education"],
-  authors: [{ name: "YouTube Flashcards" }],
+  title: "Flashcard Lab | Transform YouTube into Study Cards",
+  description: "Turn any YouTube video into interactive flashcards instantly. AI-powered learning tool that extracts key concepts and creates study cards in seconds. Free, no signup required.",
+  keywords: ["YouTube", "flashcards", "study", "AI", "learning", "education", "active recall", "spaced repetition"],
+  authors: [{ name: "Flashcard Lab" }],
   openGraph: {
-    title: "YouTube Flashcards | AI-Powered Study Cards Generator",
-    description: "Transform YouTube videos into interactive study flashcards using AI",
+    title: "Flashcard Lab | Transform YouTube into Study Cards",
+    description: "Turn any YouTube video into interactive flashcards instantly using AI",
     type: "website",
+    siteName: "Flashcard Lab",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Flashcard Lab | Transform YouTube into Study Cards",
+    description: "Turn any YouTube video into interactive flashcards instantly using AI",
   },
 };
 
@@ -30,10 +32,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en" className={inter.variable}>
+      <body className="font-sans antialiased">
         {children}
       </body>
     </html>

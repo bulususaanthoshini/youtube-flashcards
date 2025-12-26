@@ -1,31 +1,73 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f0f1a;
-  --foreground: #f5f5f7;
-  --card-front: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --card-back: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --accent: #667eea;
-  --accent-light: #818cf8;
+  /* UNIQUE STATIONERY-INSPIRED PALETTE */
+  /* Warm paper tones - feels like a real desk */
+  --bg-paper: #FBF7F0;
+  --bg-card: #FFFFFF;
+  --bg-warm: #F5EEE6;
+  
+  /* Ink colors - high contrast, readable */
+  --ink-black: #1D1D1F;
+  --ink-gray: #6E6E73;
+  --ink-light: #86868B;
+  
+  /* Accent colors - bold, playful, NOT generic */
+  --pop-vermillion: #E8453C;
+  --pop-teal: #0D9488;
+  --pop-amber: #F59E0B;
+  --pop-violet: #7C3AED;
+  --pop-rose: #F43F5E;
+  
+  /* Stationery textures */
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.04);
+  --shadow-lifted: 0 20px 40px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.08);
+  --shadow-pressed: 0 1px 2px rgba(0,0,0,0.1);
+  
+  /* Organic shapes */
+  --radius-blob: 62% 38% 46% 54% / 60% 54% 46% 40%;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg-paper);
+  --color-foreground: var(--ink-black);
+  --font-display: "Instrument Sans", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
+/* BASE STYLES */
+html {
+  background: var(--bg-paper);
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  background: var(--bg-paper);
+  color: var(--ink-black);
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* 3D Flip Card Styles */
-.perspective {
-  perspective: 1000px;
+/* Subtle dot grid pattern - like graph paper */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* CUSTOM SELECTION */
+::selection {
+  background: var(--pop-amber);
+  color: var(--ink-black);
+}
+
+/* 3D CARD FLIP MECHANICS */
+.perspective-1500 {
+  perspective: 1500px;
 }
 
 .preserve-3d {
@@ -40,21 +82,362 @@ body {
   transform: rotateY(180deg);
 }
 
-/* Custom scrollbar */
+/* HANDCRAFTED ANIMATIONS */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1deg); }
+}
+
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes draw-in {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slide-up-fade {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px) rotate(-1deg); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) rotate(0deg); 
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.animate-wiggle {
+  animation: wiggle 3s ease-in-out infinite;
+}
+
+.animate-bounce-gentle {
+  animation: bounce-gentle 2s ease-in-out infinite;
+}
+
+.animate-pop-in {
+  animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-slide-up-fade {
+  animation: slide-up-fade 0.5s ease-out forwards;
+}
+
+/* PROGRESS SHIMMER */
+.shimmer-bar {
+  background: linear-gradient(
+    90deg, 
+    var(--pop-vermillion), 
+    var(--pop-amber), 
+    var(--pop-teal), 
+    var(--pop-vermillion)
+  );
+  background-size: 400% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* CARD STYLES - Like real index cards */
+.card-paper {
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
+  border-radius: 12px;
+  position: relative;
+}
+
+.card-paper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  border-radius: 12px 12px 0 0;
+}
+
+.card-vermillion::before { background: var(--pop-vermillion); }
+.card-teal::before { background: var(--pop-teal); }
+.card-amber::before { background: var(--pop-amber); }
+.card-violet::before { background: var(--pop-violet); }
+.card-rose::before { background: var(--pop-rose); }
+
+/* TAPE DECORATION */
+.tape {
+  position: relative;
+}
+
+.tape::after {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 70px;
+  height: 28px;
+  background: linear-gradient(135deg, rgba(255,220,100,0.85) 0%, rgba(255,200,50,0.75) 100%);
+  border-radius: 1px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* STICKER EFFECT */
+.sticker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transform: rotate(-2deg);
+}
+
+/* HAND-DRAWN CIRCLE */
+.hand-circle {
+  position: relative;
+}
+
+.hand-circle::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border: 3px solid var(--pop-vermillion);
+  border-radius: var(--radius-blob);
+  opacity: 0.4;
+}
+
+/* INPUT FIELD STYLE - Like a form field */
+.input-field {
+  background: var(--bg-card);
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-card);
+  transition: all 0.2s ease;
+}
+
+.input-field:hover {
+  box-shadow: var(--shadow-lifted);
+}
+
+.input-field:focus-within {
+  border-color: var(--pop-vermillion);
+  box-shadow: var(--shadow-lifted), 0 0 0 4px rgba(232, 69, 60, 0.1);
+}
+
+/* BUTTON STYLES */
+.btn-primary {
+  background: var(--ink-black);
+  color: var(--bg-card);
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  transition: all 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lifted);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-pressed);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* SECONDARY BUTTON */
+.btn-secondary {
+  background: transparent;
+  color: var(--ink-black);
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: 2px solid var(--ink-black);
+  transition: all 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--ink-black);
+  color: var(--bg-card);
+}
+
+/* PILL BADGES */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--bg-warm);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink-gray);
+}
+
+/* SCROLLBAR */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--ink-light);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--ink-gray);
+}
+
+/* FOCUS STYLES */
+:focus-visible {
+  outline: 2px solid var(--pop-vermillion);
+  outline-offset: 2px;
+}
+
+/* COUNTER BADGE */
+.counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  background: var(--ink-black);
+  color: var(--bg-card);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  border-radius: 8px;
+}
+
+/* MARKER HIGHLIGHT */
+.marker-highlight {
+  background: linear-gradient(180deg, transparent 60%, rgba(245,158,11,0.4) 60%);
+}
+
+/* ROTATING BORDER FOR LOADING */
+@keyframes rotate-border {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loading-ring {
+  position: relative;
+}
+
+.loading-ring::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  padding: 3px;
+  background: conic-gradient(
+    from 0deg,
+    var(--pop-vermillion),
+    var(--pop-amber),
+    var(--pop-teal),
+    var(--pop-violet),
+    var(--pop-vermillion)
+  );
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: rotate-border 2s linear infinite;
+}
+
+/* NAV DOT INDICATOR */
+.nav-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ink-light);
+  opacity: 0.4;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.nav-dot:hover {
+  opacity: 0.7;
+  transform: scale(1.2);
+}
+
+.nav-dot.active {
+  background: var(--pop-vermillion);
+  opacity: 1;
+  width: 28px;
+  border-radius: 5px;
+}
+
+/* FLASHCARD COLORS */
+.flashcard-front {
+  background: linear-gradient(135deg, var(--pop-vermillion) 0%, #C7352E 100%);
+}
+
+.flashcard-back {
+  background: linear-gradient(135deg, var(--pop-teal) 0%, #0A7469 100%);
+}
+
+/* KEYBOARD KEY STYLE */
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  background: var(--bg-warm);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-bottom-width: 3px;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-gray);
+}
+
+/* YOUTUBE ICON COLOR */
+.youtube-red {
+  color: #FF0000;
+}
+
+/* BLOB SHAPES */
+.blob-1 {
+  border-radius: 62% 38% 46% 54% / 60% 54% 46% 40%;
+}
+
+.blob-2 {
+  border-radius: 46% 54% 38% 62% / 54% 46% 54% 46%;
+}
+
+.blob-3 {
+  border-radius: 38% 62% 54% 46% / 46% 60% 40% 54%;
 }
