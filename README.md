@@ -2,10 +2,16 @@
 
 Transform any YouTube video into interactive study flashcards instantly using AI.
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-brightgreen?style=for-the-badge)](https://youtube-flashcards-alpha.vercel.app)
+
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?logo=tailwind-css)
 ![License](https://img.shields.io/badge/License-MIT-green)
+
+## 🌐 Live Demo
+
+**👉 [https://youtube-flashcards-alpha.vercel.app](https://youtube-flashcards-alpha.vercel.app)**
 
 ## ✨ Features
 
@@ -29,8 +35,8 @@ Transform any YouTube video into interactive study flashcards instantly using AI
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/flashcard-lab.git
-   cd flashcard-lab
+   git clone https://github.com/priyanshuchawda/youtube-flashcards.git
+   cd youtube-flashcards
    ```
 
 2. **Install dependencies**
@@ -126,7 +132,9 @@ npm run lint     # Run ESLint
 
 ### Vercel (Recommended)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/flashcard-lab)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/priyanshuchawda/youtube-flashcards)
+
+**Live Deployment**: [https://youtube-flashcards-alpha.vercel.app](https://youtube-flashcards-alpha.vercel.app)
 
 1. Push your code to GitHub
 2. Import your repository on [Vercel](https://vercel.com)
